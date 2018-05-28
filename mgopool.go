@@ -65,12 +65,12 @@ func (b *DB) Collection(c string) *mgo.Collection {
 			b.sessionPool[ndx] = b.sessionPool[0].Copy()
 		}
 	}()
-	now := time.Now().Unix()
-	if now-b.timestamp[ndx] > sessionTimeout {
-		log.Printf("fresh index %d, %d, %d", ndx, b.timestamp[ndx], now)
-		b.sessionPool[ndx].Refresh()
-	}
-	b.timestamp[ndx] = now
+	//now := time.Now().Unix()
+	//if now-b.timestamp[ndx] > sessionTimeout {
+		//log.Printf("fresh index %d, %d, %d", ndx, b.timestamp[ndx], now)
+	b.sessionPool[ndx].Refresh()
+	//}
+	//b.timestamp[ndx] = now
 	return b.sessionPool[ndx].DB(b.dbname).C(c)
 }
 
