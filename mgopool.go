@@ -20,6 +20,8 @@ type DB struct {
 	timestamp   [poolSize]int64
 }
 
+// DefaultTimeout
+var DefaultTimeout = time.Second * 5
 var db *DB
 
 // NewDB ...
@@ -34,6 +36,9 @@ func NewDB(name string, addr string) (*DB, error) {
 			return nil, err
 		}
 
+		if mongoDBDialInfo.Timeout == 0 {
+			mongoDBDialInfo.Timeout = DefaultTimeout
+		}
 		session, err := mgo.DialWithInfo(mongoDBDialInfo)
 		if err != nil {
 			return nil, err
